@@ -1,0 +1,71 @@
+
+&run_setup
+    lattice = "B2_ilmatrix.lte",
+    p_central = 3.3268171552e+03, 
+    use_beamline="RING",
+    rootname = "output"
+&end
+
+&twiss_output 
+        filename=%s.twi,
+        matched = 1,
+        radiation_integrals = 1,
+!        concat_order=1,
+!	higher_order_chromaticity = 0
+&end
+
+! &alter_elements
+! 	name = NCC,
+! 	item = VOLT,
+! 	value = 1.215e8
+! &end
+! &alter_elements
+! 	name = NCC,
+! 	item = PHASE,
+! 	value = 179.4
+! &end
+
+! &alter_elements
+! 	name = W2,
+! 	item = INTERVAL,
+! 	value = 100
+! &end
+
+! &rf_setup
+! 	harmonic = 400,
+! 	total_voltage = 1.5e6
+! &end
+
+&run_control
+!	reset_rf_for_each_step = 0,
+	n_passes = 625,
+!	first_is_fiducial = 1,
+!	restrict_fiducialization = 1,
+
+&end
+
+&modulate_elements
+	name = "CAV",
+	item = "PHASE",
+!	expression = " 2 * pi * 700 * sin 1.8e-2 * 0 * 180 +",
+! 	1.8 deg equals 10 ps or 20 ps peak-peak
+	expression = " 2 * pi * <freq> * sin 1.8 * ",
+  	differential = 1,
+    	multiplicative = 0,
+	verbose = 0
+&end
+
+
+&bunched_beam
+    n_particles_per_bunch = 201,
+    sigma_dp = 0.0006984022039134065,
+    sigma_s = 3e-3,
+    save_initial_coordinates = 1,
+    enforce_rms_values[0] = 0, 0, 0,
+    distribution_cutoff[0] = 10,10,10,
+    distribution_type[0] = gaussian, gaussian, gaussian,
+    centroid[0] = 0,0,0, 0,0,0,
+&end
+
+&track
+&end

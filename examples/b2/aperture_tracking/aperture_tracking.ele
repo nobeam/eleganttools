@@ -1,0 +1,50 @@
+
+
+
+&divide_elements
+         name = *, type = *DRIF*, maximum_length = 0.03
+&end
+&divide_elements
+         name = *, type = *KQUAD*, maximum_length = 0.03,
+&end
+&divide_elements
+         name = *, type = *KSEXT*, maximum_length = 0.03,
+&end
+&divide_elements
+         name = *, type = *CSBEND*, maximum_length = 0.03,
+&end
+
+&run_setup
+    lattice = "active.lte",
+    p_central = 3.3268171552e+03, 
+    use_beamline="RING",
+!    default_order = 1,
+!    concat_order = 1,
+    rootname = "output"
+&end
+
+&aperture_data
+	input = "aperture.sdds"	
+&end
+
+&twiss_output 
+        filename=%s.twi,
+        matched = 1,
+        radiation_integrals = 1,
+!        concat_order=1,
+!	higher_order_chromaticity = 0
+&end
+
+
+&run_control
+!	reset_rf_for_each_step = 0,
+	n_passes = 10
+&end
+
+
+&bunched_beam 
+	 n_particles_per_bunch = 1,
+&end
+
+&track
+&end

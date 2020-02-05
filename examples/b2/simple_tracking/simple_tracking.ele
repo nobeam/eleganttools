@@ -1,0 +1,31 @@
+
+&run_setup
+    lattice = "active.lte",
+    p_central = 3.3268171552e+03, 
+    use_beamline="RING",
+!    default_order = 1,
+!    concat_order = 1,
+    rootname = "output"
+&end
+
+&twiss_output 
+        filename=%s.twi,
+        matched = 1,
+        radiation_integrals = 1,
+!        concat_order=1,
+!	higher_order_chromaticity = 0
+&end
+
+
+&run_control
+!	reset_rf_for_each_step = 0,
+	n_passes = 1000
+&end
+
+
+&bunched_beam 
+	 n_particles_per_bunch = 1,
+&end
+
+&track
+&end

@@ -1,0 +1,31 @@
+
+! &divide_elements
+!          name = *, type = *KQUAD*, maximum_length = 0.03,
+! &end
+! &divide_elements
+!          name = *, type = *KSEXT*, maximum_length = 0.03,
+! &end
+! &divide_elements
+!          name = *, type = *CSBEND*, maximum_length = 0.003,
+! &end
+
+&run_setup
+    lattice = "active.lte",
+    p_central_mev = 1700,
+    use_beamline="RING",
+    rootname = "output"
+&end
+
+&floor_coordinates
+    filename = %s.flr,
+    X0 = 0.000000000000000e+00,
+    Y0 = 0.000000000000000e+00,
+    Z0 = 0.000000000000000e+00,
+    theta0 = 0.000000000000000e+00,
+    phi0 = 0.000000000000000e+00,
+    psi0 = 0.000000000000000e+00,
+    include_vertices = 0,
+    vertices_only = 0,
+    magnet_centers = 0,
+    store_vertices = 0,
+&end

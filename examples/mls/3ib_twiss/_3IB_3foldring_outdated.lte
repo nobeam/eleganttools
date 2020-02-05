@@ -1,0 +1,94 @@
+! canocial kick elements
+!% 20 sto quadkicks
+!% 10 sto sextkicks
+% 40 sto csbendkicks
+
+
+! beam,particle=electron,energy=0.629,sige=4.4e-4,sigt=1e-3,radiate;
+
+
+SEP_MARKER: MARKER
+CAV_MARKER: MARKER
+UND_MARKER: MARKER
+RW_MARKER: MARKER
+QPD00: MARKER
+QPD01: MARKER
+IR: MARKER
+THZ: MARKER
+VUV: MARKER
+EUV: MARKER
+QNIM: MARKER
+
+!CAV: RFCAVITY,L=0.15,VOLT=-0.5/2.0,HARMON=80,no_cavity_totalpath=true; // 1/2 RF CAV
+CAV: RFCA, L=0.15, VOLT=0.65e6, FREQ=499653766.8989248, PHASE=179.0, T_REFERENCE=0
+
+
+
+!
+DL     : drift, L = 3.0
+DL_CAV : drift, L = 2.85
+DK     : drift, L = 1.25
+D1     : drift, L = 0.15
+D2     : drift, L = 0.125
+D3     : drift, L = 0.425
+D4     : drift, L = 0.3
+
+! BBSBENDquarter: SBEND, L=1.2/4, ANGLE=PI/4/4;
+! BBDIPEDGE1: dipedge, h=PI/4./1.2,E1=PI/8.,hgap=0.025,FINT=0.5;
+! BBDIPEDGE2: dipedge, h=PI/4./1.2,E1=PI/8.,hgap=0.025,FINT=0.5;
+! BB8: line=(BBDIPEDGE1,BBSBENDquarter,BBSBENDquarter,BBSBENDquarter,BBSBENDquarter,BBDIPEDGE2);
+
+
+% 1.2 sto length
+% pi 4 / sto angle
+% length angle / sto rho
+
+BB: CSBEND, n_kicks="csbendkicks", L="length", ANGLE="angle", E1="angle 2 /", E2="angle 2 /", FINT=0.5, HGAP=0.025,USE_RAD_DIST=1
+! , H1="length angle /", H2="length angle /",
+
+
+
+VQ1     =  2.97052;
+VQ2K    = -4.67519
+VQ2L    = -4.29486;
+VQ3K    =  5.10853
+VQ3L    =  5.51708;
+
+Q1     : KQUAD,  L=0.2, K1=2.97052,N_KICKS=40
+Q1_SEP : KQUAD,  L=0.2, K1=2.97052,N_KICKS=40
+Q2K    : KQUAD,  L=0.2, K1=-4.67519,N_KICKS=40
+Q3K    : KQUAD,  L=0.2, K1=5.10853,N_KICKS=40
+Q2L    : KQUAD,  L=0.2, K1=-4.29486,N_KICKS=40
+Q3L    : KQUAD,  L=0.2, K1=5.51708,N_KICKS=40
+
+!S1:KSEXT,L=0.1,K2=70.4953,N_KICKS=20
+!S2:KSEXT,L=0.1,K2=-86.5103,N_KICKS=20
+S1:KSEXT,L=0.1,K2=70.4953,N_KICKS=20
+S2:KSEXT,L=0.1,K2=-86.5103,N_KICKS=20
+S3:KSEXT,L=0.1,K2=0,N_KICKS=20
+S3P1:KSEXT,L=0.1,K2=-2.1807,N_KICKS=20
+S3P2:KSEXT,L=0.1,K2=-5.7971,N_KICKS=20
+
+O1: KOCT,L=0.1,K3=0.0
+
+W1: 	watch, filename="%s.w1",  mode=centroid
+M1: MALIGN, DX=0
+M2: MALIGN, DX=0
+W3: WATCH,FILENAME="%s.w3",MODE="coordinate"
+W2: WATCH,FILENAME="%s.w2",MODE="CENTROID"
+RC: RECIRC
+
+R: LINE=(RW_MARKER, &
+    DK    ,S3P2,D1,Q3K,D1,Q2K,D3,BB,D3,S2,D4,S1,D1,Q1    ,D2,O1,D2,Q1    ,D1,S1,D4,S2,D3,BB,D3,Q2L,D1,Q3L,D1,S3P2,DL_CAV, &
+    CAV,CAV_MARKER,CAV, &
+    DL_CAV,S3P1,D1,Q3L,D1,Q2L,D3,BB,D3,S2,D4,S1,D1,Q1    ,D2,O1,D2,Q1_SEP,D1,S1,D4,S2,D3,BB,D3,Q2K,D1,Q3K,D1,S3P1,DK, &
+    SEP_MARKER, &
+    DK    ,S3P1,D1,Q3K,D1,Q2K,D3,BB,D3,S2,D4,S1,D1,Q1_SEP,D2,O1,D2,Q1    ,D1,S1,D4,S2,D3,BB,D3,Q2L,D1,Q3L,D1,S3P1,DL, &
+    UND_MARKER, &
+    DL    ,S3P2,D1,Q3L,D1,Q2L,D3,BB,D3,S2,D4,S1,D1,Q1    ,D2,O1,D2,Q1    ,D1,S1,D4,S2,D3,BB,D3,Q2K,D1,Q3K,D1,S3P2,DK)
+
+
+
+RING: LINE=(RC,W1,W3,M1,R,R,R,M2)
+USE,RING
+RETURN

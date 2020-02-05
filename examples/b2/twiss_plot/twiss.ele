@@ -1,0 +1,19 @@
+! TODO: from felix andreas test vs twiss_full
+&run_setup
+    lattice = "active.lte",
+    magnets = "%s.mag",
+    p_central_mev = 1700,
+    echo_lattice = 1
+&end
+
+&twiss_output
+    filename = %s.twi,
+    statistics = 1,
+    radiation_integrals = 1,
+    higher_order_chromaticity = 1,
+    higher_order_chromaticity_points = 12,
+    higher_order_chromaticity_range = 4e-2,
+    cavities_are_drifts_if_matched = 1,
+    compute_driving_terms = 1,
+&end
+

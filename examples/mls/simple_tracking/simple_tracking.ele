@@ -1,0 +1,41 @@
+
+&run_setup
+    lattice = <latticename>,
+		p_central_mev = <energy_mev>,
+!		p_central_mev = 1700,
+!		p_central_mev = 629,  
+    use_beamline="RING",
+!    default_order = 1,
+!    concat_order = 1,
+    rootname = <rootname>
+&end
+
+&twiss_output 
+        filename=%s.twi,
+        matched = 1,
+        radiation_integrals = 1,
+!        concat_order=1,
+!	higher_order_chromaticity = 0
+&end
+
+
+&run_control
+!	reset_rf_for_each_step = 0,
+	n_steps = 1
+	n_indices = 1
+	n_passes = 100
+&end
+
+&vary_element
+	name=mal, item=dx, initial=-5.0e-2, final=5.0e-2,
+	index_number=0, index_limit=11
+&end
+
+
+&bunched_beam 
+	 n_particles_per_bunch = 1,
+	 centroid[0]=0.0, 0.0, 0.001, 0.0, 0.0, 0.000
+&end
+
+&track
+&end

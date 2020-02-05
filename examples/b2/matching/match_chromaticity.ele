@@ -1,0 +1,31 @@
+
+&run_setup
+    lattice = "input.lte",
+    p_central = 3.3268171552e+03, 
+    use_beamline="RING",
+    default_order = 3,
+    concat_order = 3,
+    rootname = "output"
+&end
+
+&chromaticity
+    sextupoles = "S1 S2", n_iterations = 50,
+    change_defined_values = 1,
+    dnux_dp = 2,
+    dnuy_dp = 3,
+    verbosity = 5,
+    tolerance = 0.001
+&end
+
+&run_control
+&end
+
+&bunched_beam 
+&end
+
+&track     
+&end
+
+&save_lattice 
+	filename = %s_newChromaticity.lte
+&end
