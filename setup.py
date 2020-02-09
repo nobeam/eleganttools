@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 base_path = Path(__file__).resolve().parent
 about: Dict[str, str] = {}
-exec((base_path / "elegant_tools/__about__.py").read_text(), about)
+exec((base_path / "eleganttools/__about__.py").read_text(), about)
 readme = (base_path / "README.md").read_text()
 
 setup(
