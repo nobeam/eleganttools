@@ -1,12 +1,7 @@
-#!/usr/bin/env python2
-import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
 
-matplotlib.use("Agg")
-from pylab import *
-import matplotlib.patches as patches
-
-from sddshzb import SDDSad
-from sddshzb import Twissplot
+from eleganttools.sddshzb import SDDSad, Twissplot
 import sys
 
 maintitle = subtitle = ""
@@ -21,48 +16,43 @@ if len(sys.argv) > 2:
 # Initialize SDDS object and load sdds file with twiss table
 twis = SDDSad(0)
 twis.load("output.twi_full")
+
 # Get convenient attribute dictionary
 twi = twis.columnDataDict
 
-# Print out contained data
-# print "\nDescription:",twis.description
-# print "\n",len(twis.parameterName),"Paramters:\n", twis.parameterName
-# print "\n",len(twis.columnName),"Columns:\n", twis.columnName
-
 # Length of ring
-C = np.max(np.array(twi.s, dtype=np.float64))
-print len(twi), twi.keys(), C
+C = np.max(np.array(twi["s"], dtype=np.float64))
+print(len(twi), twi.keys(), C)
 
 # Create figure in golden ratio (A paper sizes)
 figsizeinch = 14
-fig = figure(figsize=(figsizeinch, figsizeinch * 0.5 ** 0.5))
+fig = plt.figure(figsize=(figsizeinch, figsizeinch * 0.5 ** 0.5))
 
 # Plot whole ring
-subplot(311)
-plot(twi.s, twi.betax, "g-")
-plot(twi.s, twi.betay, "b-")
-plot(twi.s, 10 * np.array(twi.etax, dtype=np.float64), "r-")
+plt.subplot(311)
+plt.plot(twi["s"], twi["betax"], "g-")
+plt.plot(twi["s"], twi["betay"], "b-")
+plt.plot(twi["s"], 10 * np.array(twi["etax"], dtype=np.float64), "r-")
 
 # Latteice graphics vertical position and size (axis coordinates!)
-lypos = gca().get_ylim()[1]
+lypos = plt.gca().get_ylim()[1]
 tp = Twissplot(lypos=lypos, lysize=lypos * 0.12)
 tp.axislabels(yscale=0.5)
 tp.paintlattice(twi, 0, C, ec=False, fscale=2)
-xlim(0, C)
+plt.xlim(0, C)
 
 # Print some headline information
 par = twis.parameterData
-# print par
-# for key in ('U0','alphac','nux','nuy','dnux/dp','dnuy/dp'):
-#     print key, par[key][0]
-annotate(
+plt.annotate(
     maintitle, xy=(-0.02, 1.25), fontsize=30, va="center", xycoords="axes fraction"
-)  # , annotation_clip=False)
-annotate(subtitle, xy=(-0.02, 1.11), fontsize=8, va="center", xycoords="axes fraction")
+)
+plt.annotate(
+    subtitle, xy=(-0.02, 1.11), fontsize=8, va="center", xycoords="axes fraction"
+)
 ianno = 0
 
 
-def annoTwiss(key, value=None):
+def annotate_twiss(key, value=None):
     global ianno
     xpos = int(ianno / 4) * 0.18 + 0.5
     ypos = -int(ianno % 4) * 0.07 + 1.32
@@ -71,14 +61,14 @@ def annoTwiss(key, value=None):
     if value == None:
         value = par[key][0]
     if value < 1e-5:
-        annotate(
+        plt.annotate(
             "{0:} = {1:12.6e}".format(key, value),
             xy=(xpos, ypos),
             va="center",
             xycoords="axes fraction",
         )  # , annotation_clip=False)
     else:
-        annotate(
+        plt.annotate(
             "{0:} = {1:12.10f}".format(key, value),
             xy=(xpos, ypos),
             va="center",
@@ -86,16 +76,16 @@ def annoTwiss(key, value=None):
         )  # , annotation_clip=False)
 
 
-annoTwiss("length", C)
-annoTwiss("nux")
-annoTwiss("nuy")
-annoTwiss("alphac")
-annoTwiss("dnux/dp")
-annoTwiss("dnuy/dp")
-annoTwiss("U0")
-annoTwiss("Sdelta0")
-annoTwiss("ex0")
-annoTwiss("E_GeV", par["pCentral"][0] / 3913.90152459 * 2)
+annotate_twiss("length", C)
+annotate_twiss("nux")
+annotate_twiss("nuy")
+annotate_twiss("alphac")
+annotate_twiss("dnux/dp")
+annotate_twiss("dnuy/dp")
+annotate_twiss("U0")
+annotate_twiss("Sdelta0")
+annotate_twiss("ex0")
+annotate_twiss("E_GeV", par["pCentral"][0] / 3913.90152459 * 2)
 
 for i in range(1, 10):
     ha = "center"
@@ -104,8 +94,8 @@ for i in range(1, 10):
     if i == 9:
         ha = "right"
     x = i * 30 - 30
-    annotate("D{0}".format(i), xy=(x, lypos * 0.9), ha=ha, va="top", zorder=105)
-    annotate(
+    plt.annotate("D{0}".format(i), xy=(x, lypos * 0.9), ha=ha, va="top", zorder=105)
+    plt.annotate(
         tp.names["D"][(i - 1) % 8],
         xy=(x, lypos * 0.82),
         fontsize=4,
@@ -114,8 +104,10 @@ for i in range(1, 10):
         zorder=105,
     )
     x = i * 30 - 15
-    annotate("T{0}".format(i), xy=(x, lypos * 0.9), ha="center", va="top", zorder=105)
-    annotate(
+    plt.annotate(
+        "T{0}".format(i), xy=(x, lypos * 0.9), ha="center", va="top", zorder=105
+    )
+    plt.annotate(
         tp.names["T"][(i - 1) % 8],
         xy=(x, lypos * 0.82),
         fontsize=4,
@@ -124,26 +116,25 @@ for i in range(1, 10):
         zorder=105,
     )
 
-gca().set_xticks(linspace(0, 240, 17, endpoint=True))
-gca().set_xticks(linspace(7.5, 232.5, 16, endpoint=True), minor=True)
+plt.gca().set_xticks(np.linspace(0, 240, 17, endpoint=True))
+plt.gca().set_xticks(np.linspace(7.5, 232.5, 16, endpoint=True), minor=True)
 
-gca().xaxis.grid(which="minor")
-gca().yaxis.grid(alpha=0.3, zorder=0)
+plt.gca().xaxis.grid(which="minor")
+plt.gca().yaxis.grid(alpha=0.3, zorder=0)
 
 # Plot 4 interesting sections
-subplot(323)
+plt.subplot(323)
 tp.plotsection(twi, "D", 1)
 
-subplot(324)
+plt.subplot(324)
 tp.plotsection(twi, "T", 6)
 
-subplot(325)
+plt.subplot(325)
 tp.plotsection(twi, "D", 6)
 
-subplot(326)
+plt.subplot(326)
 tp.plotsection(twi, "T", 8)
 
 # Efficient Plot Adjustment
-subplots_adjust(top=0.9, left=0.05, right=0.98, bottom=0.05, hspace=0.3)
-
-savefig("twiss.pdf")
+plt.subplots_adjust(top=0.9, left=0.05, right=0.98, bottom=0.05, hspace=0.3)
+plt.savefig("twiss.pdf")
