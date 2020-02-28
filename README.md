@@ -11,9 +11,9 @@ cd elegantools
 pip install -Ue .
 ```
 
-### Load SDDS data
+### Deal with Self Describing Data Sets (SDDS)
 
-Load the twiss data as Python dictionary:
+Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
 
 ``` python
 from eleganttools import sdds
