@@ -1,12 +1,13 @@
-1) Create symlink to your lattice, e.g.:
-   ln -s B2User_MRu.lte active.lte
+### Twiss plot
 
-# or choose a other file from the lattic directory
+1. Create symlink to your lattice, e.g.:
 
-2) Run elegant:
-   elegant twissOutput.ele
+       ln -s /path/to/lattice.lte active.lte
 
-3) Plot data:
+2. Run elegant:
 
-   python plotTwiss.py
+       elegant twiss.ele
 
+3. Plot the twiss data:
+
+       python plot_twiss.py twiss.twi --title "BESSY II Standard User Mode 2020/02/29"
