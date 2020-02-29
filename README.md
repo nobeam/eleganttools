@@ -8,16 +8,16 @@
 
   - If you intend to make changes to this repository, clone and install it with:
 
-  ``` bash
-  git clone git@github.com:nobeam/eleganttools.git
-  pip install -Ue ./eleganttools
-  ```
+    ``` bash
+    git clone git@github.com:nobeam/eleganttools.git
+    pip install -Ue ./eleganttools
+    ```
 
   - If you just want to use this package:
 
-  ``` bash
-  pip install -U git+https://github.com/nobeam/eleganttools.git@master
-  ```
+    ``` bash
+    pip install -U git+https://github.com/nobeam/eleganttools.git@master
+    ```
 
 ## Usage
 
