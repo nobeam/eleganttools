@@ -4,7 +4,7 @@
 
 1. Install elegant from [here](https://aps.anl.gov/Accelerator-Operations-Physics/Software).
 
-2. Installing this package
+2. Installing this package:
 
     - If you intend to make changes to this repository, clone and install it with:
 
