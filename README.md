@@ -24,7 +24,7 @@ pip install -U git+https://github.com/nobeam/eleganttools.git@master
 Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
 
 ``` python
-from eleganttools.sddslib import SDDS
+from eleganttools import SDDS
 
 twiss = SDDS("/path/to/twiss.twi").as_dict()
 ```

@@ -1,7 +1,5 @@
 import pytest
-import json
 from pathlib import Path
-import apace as ap
 
 BASE_PATH = Path(__file__).resolve().parent
 DATA_PATH = BASE_PATH / "data"

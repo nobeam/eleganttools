@@ -1,1 +1,2 @@
+from .__about__ import __version__
 from .sddslib import SDDS
