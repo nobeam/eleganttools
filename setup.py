@@ -15,6 +15,8 @@ setup(
     long_description_content_type="text/markdown",
     url=about["__url__"],
     packages=find_packages(),
+    include_package_data=True,
     install_requires=["numpy", "matplotlib"],
+    test_requires=["pytest"],
     python_requires=">=3.6",
 )

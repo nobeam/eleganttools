@@ -1,16 +1,14 @@
-from sddshzb import SDDSad
 import numpy as np
-from matplotlib.pyplot import xlabel, ylabel, gca, xlim, ylim, annotate, plot
-
-# from pylab import *
-# from matplotlib.colors import LogNorm
+import matplotlib.pyplot as plt
 
 import matplotlib.patches as patches
-from matplotlib.offsetbox import AnchoredOffsetbox, TextArea, HPacker, VPacker
+from matplotlib.offsetbox import AnchoredOffsetbox, TextArea, VPacker
+
+from . import sdds
 
 
 class Twissplot:
-    Dnames = [
+    Dnames = (
         "Injection",
         "U125",
         "UE56",
@@ -19,8 +17,8 @@ class Twissplot:
         "UE56 + U139 (slicing)",
         "UE112",
         "UE49",
-    ]
-    Tnames = [
+    )
+    Tnames = (
         "Landau + BAM WLS7",
         "MPW",
         "U41",
@@ -29,7 +27,7 @@ class Twissplot:
         "CPMU17 + UE48 (EMIL)",
         "PSF WLS7",
         "Cavities",
-    ]
+    )
     names = {
         "D": Dnames,
         "T": Tnames,
@@ -41,12 +39,11 @@ class Twissplot:
         self.lysize = lysize
         self.zorderoffset = zorderoffset
 
-    def getrolled(self, s, y, fmt=None):  # access lattice from -120 to 120m
+    def get_rolled(self, s, y, fmt=None):  # access lattice from -120 to 120m
         x = np.array(s, dtype=np.float64)
         y = np.array(y, dtype=np.float64)
         x[x > 120] = x[x > 120] - 240.0
         ishift = np.argmax(x < 0)
-        # print len(x),ishift
         x = np.roll(x, -ishift)
         y = np.roll(y, -ishift)
         if fmt:
@@ -57,36 +54,34 @@ class Twissplot:
     # Note:
     # It seem elegant twiss-ouput always prints the length, type and name
     # at the END of the element (!)
-    #
     # Check element list
     # print np.unique(twi.ElementType)
     # ['CSBEND' 'DRIF' 'KQUAD' 'KSEXT' 'MALIGN' 'MARK' 'RECIRC' 'WATCH']
-    #
-    def paintlattice(
+    def paint_lattice(
         self,
-        d,
+        data,
         s0,
         s1,
-        ycenter=None,
-        ysize=None,
+        y_center=None,
+        y_size=None,
         ec=True,
         labels=True,
         rolled=False,
         fscale=1.0,
         floorCoordinates=False,
     ):
-        if ycenter is None:
-            ycenter = self.lypos
-        if ysize is None:
-            ysize = self.lysize
-        s = np.array(d.s, dtype=np.float64)
-        et = d.ElementType
-        en = d.ElementName
+        if y_center is None:
+            y_center = self.lypos
+        if y_size is None:
+            y_size = self.lysize
+        s = np.array(data["s"], dtype=np.float64)
+        et = data["ElementType"]
+        en = data["ElementName"]
         angle = 0
         if floorCoordinates:
-            Z = np.array(d.Z, dtype=np.float64)
-            X = np.array(d.X, dtype=np.float64)
-            theta = np.array(d.theta, dtype=np.float64)
+            Z = np.array(data["Z"], dtype=np.float64)
+            X = np.array(data["X"], dtype=np.float64)
+            theta = np.array(data["theta"], dtype=np.float64)
         if rolled:
             s[s > 120] = s[s > 120] - 240.0
             ishift = np.argmax(s < 0)
@@ -113,8 +108,10 @@ class Twissplot:
             if floorCoordinates:
                 istart = s == start
                 angle = theta[istart][-1] / np.pi * 180
-                start = Z[istart][-1] + np.sin(theta[i]) * 0.5 * ysize
-                ycenter = X[istart][-1] + 0.5 * ysize - np.cos(theta[i]) * 0.5 * ysize
+                start = Z[istart][-1] + np.sin(theta[i]) * 0.5 * y_size
+                y_center = (
+                    X[istart][-1] + 0.5 * y_size - np.cos(theta[i]) * 0.5 * y_size
+                )
             col = "none"
             ecol = "k"
             if et[i] == "CSBEND":
@@ -139,11 +136,11 @@ class Twissplot:
                 ecol = "none"
 
             if col != "none":
-                gca().add_patch(
+                plt.gca().add_patch(
                     patches.Rectangle(
-                        (start, ycenter - 0.5 * ysize),
+                        (start, y_center - 0.5 * y_size),
                         l,
-                        ysize,
+                        y_size,
                         ec=ecol,
                         facecolor=col,
                         clip_on=False,
@@ -155,10 +152,10 @@ class Twissplot:
                     fs = 80 / (s1 - s0) * fscale
                     # TODO fixes for floorCoordinates:
                     if et[i] == "KSEXT":
-                        annotate(
+                        plt.annotate(
                             en[i],
-                            xy=(start, ycenter),
-                            xytext=(start + 0.5 * l, ycenter - 0.55 * ysize),
+                            xy=(start, y_center),
+                            xytext=(start + 0.5 * l, y_center - 0.55 * y_size),
                             fontsize=fs,
                             va="top",
                             ha="center",
@@ -166,22 +163,19 @@ class Twissplot:
                             zorder=self.zorderoffset + 2,
                         )
                     else:
-                        annotate(
+                        plt.annotate(
                             en[i],
-                            xy=(start, ycenter),
-                            xytext=(start + 0.5 * l, ycenter + 0.5 * ysize),
+                            xy=(start, y_center),
+                            xytext=(start + 0.5 * l, y_center + 0.5 * y_size),
                             fontsize=fs,
                             va="bottom",
                             ha="center",
                             clip_on=False,
                             zorder=self.zorderoffset + 2,
                         )
-        # print d.ElementType
 
-    def axislabels(self, yscale=1, Dfac=10):
-        xlabel("s / m")
-        # ylabel('beta function / m        dispertion / 0.1m')
-        # ylabel('$\\beta / \mathrm{m}$        $\\eta_x / 10\mathrm{cm}$')
+    def axis_labels(self, yscale=1, Dfac=10):
+        plt.xlabel("s / m")
 
         ybox3 = TextArea(
             "       $\\eta_x / {0}".format(int(100 / Dfac)) + "\mathrm{cm}$",
@@ -202,46 +196,34 @@ class Twissplot:
             pad=0.0,
             frameon=False,
             bbox_to_anchor=(-0.08 * yscale, 0.15),
-            bbox_transform=gca().transAxes,
+            bbox_transform=plt.gca().transAxes,
             borderpad=0.0,
         )
-        gca().add_artist(anchored_ybox)
-        # ylim(-1)
+        plt.gca().add_artist(anchored_ybox)
 
-    def plotsection(self, d, stype, nr):
-        s0 = (nr - 1) * 30.0 - 7.5
-        if stype == "T":
-            s0 += 15.0
-        if stype == "S":
-            s1 = s0 + 30.0
-        else:
-            s1 = s0 + 15.0
+    def plot_section(self, data, s_lim, section_name=""):
+        s, beta_x, beta_y, eta_x = (
+            data[key] for key in ("s", "betax", "betay", "etax")
+        )
+        s0, s1 = s_lim
+        plt.plot(s, beta_x, "g-")
+        plt.plot(s, beta_y, "b-")
+        plt.plot(s, 10 * np.array(eta_x, dtype=np.float64), "r-")
+        rolled = False
 
-        if stype == "D" and nr == 1:
-            plot(*self.getrolled(d.s, d.betax, "g-"))
-            plot(*self.getrolled(d.s, d.betay, "b-"))
-            x, y, = self.getrolled(d.s, d.etax)
-            plot(x, 10 * y, "r-")
-            rolled = True
-        else:
-            plot(d.s, d.betax, "g-")
-            plot(d.s, d.betay, "b-")
-            plot(d.s, 10 * np.array(d.etax, dtype=np.float64), "r-")
-            rolled = False
-
-        annotate(
-            stype + "{0:0n}".format(nr),
+        plt.annotate(
+            section_name,
             xy=((s1 + s0) / 2.0, 25 - 5),
             fontsize=20,
             ha="center",
             va="top",
             zorder=self.zorderoffset + 5,
         )
-        gca().yaxis.grid(alpha=0.3, zorder=0)
+        plt.gca().yaxis.grid(alpha=0.3, zorder=0)
 
-        #    print stype, names[stype][nr-1], names[stype]
-        annotate(
-            "" + self.names[stype][nr - 1] + "",
+        section_type, section_number = section_name
+        plt.annotate(
+            "" + self.names[section_type][int(section_number) - 1] + "",
             xy=((s1 + s0) / 2.0, 25 - 9),
             fontsize=8,
             ha="center",
@@ -249,6 +231,8 @@ class Twissplot:
             zorder=self.zorderoffset + 5,
         )
 
-        self.paintlattice(d, s0, s1, self.lypos, self.lysize, ec=True, rolled=rolled)
-        self.axislabels()
-        xlim(s0, s1)
+        self.paint_lattice(
+            data, s0, s1, self.lypos, self.lysize, ec=True, rolled=rolled
+        )
+        self.axis_labels()
+        plt.xlim(s0, s1)
