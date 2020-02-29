@@ -1,3 +1,5 @@
+! TWISS OUTPUT FULL
+
 ! 3cm slices of everything takes about 24 seconds calculation time
 &divide_elements
          name = *, type = *DRIF*, maximum_length = 0.03,
@@ -17,7 +19,9 @@
     lattice = "active.lte",
     magnets = "%s.mag",
     p_central_mev = 1700,
-    echo_lattice = 1
+    use_beamline="RING",
+    default_order = 3,
+    concat_order = 3,
 &end
 
 &twiss_output
@@ -26,8 +30,7 @@
     radiation_integrals = 1,
     higher_order_chromaticity = 1,
     higher_order_chromaticity_points = 12,
-    higher_order_chromaticity_range = 4e-2,
-    cavities_are_drifts_if_matched = 1,
+    higher_order_chromaticity_range = 4e-02,
     compute_driving_terms = 1,
 &end
 
