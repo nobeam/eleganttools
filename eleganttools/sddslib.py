@@ -1,4 +1,4 @@
-"""Wraps SDDSPython to provide a convenient interface for converting SDDS ot Python objects."""
+"""Wraps SDDSPython to provide a convenient interface for converting SDDS files Python objects."""
 
 import numpy as np
 
