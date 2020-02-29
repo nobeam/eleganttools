@@ -8,12 +8,12 @@
 
     - If you intend to make changes to this repository, clone and install it with:
 
-        git clone git@github.com:nobeam/eleganttools.git
-        pip install -Ue ./eleganttools
+          git clone git@github.com:nobeam/eleganttools.git
+          pip install -Ue ./eleganttools
 
     - If you just want to use this package:
 
-        pip install -U git+https://github.com/nobeam/eleganttools.git@master
+          pip install -U git+https://github.com/nobeam/eleganttools.git@master
 
 ## Usage
 
