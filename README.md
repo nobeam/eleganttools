@@ -2,23 +2,32 @@
 
 ## Installation
 
-1. Install elegant and SDDSPython from [here](https://aps.anl.gov/Accelerator-Operations-Physics/Software).
+1. Install elegant from [here](https://aps.anl.gov/Accelerator-Operations-Physics/Software).
 
-2. Clone this repository and install it with
+2a. If you intend to make changes to this repository, clone and install it with:
 
 ``` bash
+git clone git@github.com:NoBeam/eleganttools.git
 cd elegantools
 pip install -Ue .
 ```
+
+2b. If you just want to use this package:
+
+``` bash
+pip install git+https://github.com/nobeam/eleganttools.git@master
+```
+
+## Usage
 
 ### Dealing with Self Describing Data Sets (SDDS)
 
 Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
 
 ``` python
-from eleganttools import sdds
+from eleganttools.sddslib import SDDS
 
-twiss = sdds.as_dict("/path/to/twiss.twi")
+twiss = SDDS("/path/to/twiss.twi").as_dict()
 ```
 
 You can now access items of the twiss data via:
@@ -37,7 +46,7 @@ It is also possible to load the data into a pandas dataframe and use the slightl
 convenient dot notation:
 
 ``` python
-df = sdds.as_dataframe("/path/to/twiss.twi")
+df = SDDS("/path/to/twiss.twi").as_dataframe()
 df.betax
 ```
 
