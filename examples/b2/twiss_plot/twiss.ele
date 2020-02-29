@@ -1,4 +1,18 @@
-! TODO: from felix andreas test vs twiss_full
+! 3cm slices of everything takes about 24 seconds calculation time
+&divide_elements
+         name = *, type = *DRIF*, maximum_length = 0.03,
+&end
+&divide_elements
+         name = *, type = *KQUAD*, maximum_length = 0.03,
+&end
+&divide_elements
+         name = *, type = *KSEXT*, maximum_length = 0.03,
+&end
+&divide_elements
+         name = *, type = *CSBEND*, maximum_length = 0.03,
+&end
+
+
 &run_setup
     lattice = "active.lte",
     magnets = "%s.mag",
