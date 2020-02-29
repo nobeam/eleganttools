@@ -11,17 +11,34 @@ cd elegantools
 pip install -Ue .
 ```
 
-### Deal with Self Describing Data Sets (SDDS)
+### Dealing with Self Describing Data Sets (SDDS)
 
 Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
 
 ``` python
 from eleganttools import sdds
 
-data = sdds.as_dict("/path/to/twiss.twi")
-parameters = data["parameters"]
-columns = data["columns"]
-s, beta_x, beta_y = (columns[key] for key in ("s", "betax", "betay"))
+twiss = sdds.as_dict("/path/to/twiss.twi")
+```
+
+You can now access items of the twiss data via:
+
+``` python
+twiss["betax"]
+```
+
+Or, assign multiple items to individual Python variables:
+
+``` python
+s, beta_x, beta_y = (twiss[key] for key in ("s", "betax", "betay"))
+```
+
+It is also possible to load the data into a pandas dataframe and use the slightly more
+convenient dot notation:
+
+``` python
+df = sdds.as_dataframe("/path/to/twiss.twi")
+df.betax
 ```
 
 ### Run the examples

@@ -4,9 +4,9 @@
 # or choose a other file from the lattic directory
 
 2) Run elegant:
-   :wq
    elegant twissOutput.ele
 
 3) Plot data:
 
    python plotTwiss.py
+

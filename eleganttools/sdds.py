@@ -1,6 +1,6 @@
 from typing import Tuple
+from sdds import SDDS  # https://aps.anl.gov/Accelerator-Operations-Physics/Software
 import numpy as np
-import sdds as _sdds  # https://aps.anl.gov/Accelerator-Operations-Physics/Software
 
 
 def as_dict(path) -> dict:
@@ -11,22 +11,21 @@ def as_dict(path) -> dict:
     :return: SDDS as dict
     :rtype: dict
     """
-    data = _sdds.SDDS(0)
-    data.load(path)
-    parameters = dict(zip(data.parameterName, data.parameterData))
-    columns = dict(zip(data.columnName, data.columnData)) if data.columnData else {}
-    return dict(parameters=parameters, columns=columns)
+    sdds = SDDS(0)
+    sdds.load(path)
+    parameter_data = [c[0] for c in sdds.parameterData]
+    column_data = [np.squeeze(col) for col in sdds.columnData]
+    return dict(zip(sdds.parameterName + sdds.columnName, parameter_data + column_data))
 
 
-def columns_as_array(path) -> np.ndarray:
-    """Convert the columns of a self describing data set (SDDS) to a numpy ndarray.
+def as_dataframe(path) -> "pandas.DataFrame":
+    """Convert the columns of a self describing data set (SDDS) to a pandas dataframe.
 
     :param path: Path to SDDS file.
     :type path: str
-    :return: SDDS as numpy ndarray
-    :rtype: numpy.ndarray
+    :return: SDDS as pandas dataframe
+    :rtype: pandas.DataFrame
     """
-    data = _sdds.SDDS(0)
-    data.load(path)
-    breakpoint()
-    return np.array(data.columnData)
+    import pandas as pd
+
+    return pd.DataFrame.from_dict(as_dict(path))

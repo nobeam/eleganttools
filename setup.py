@@ -16,5 +16,6 @@ setup(
     url=about["__url__"],
     packages=find_packages(),
     install_requires=["numpy", "matplotlib"],
+    test_requires=["pytest"],
     python_requires=">=3.6",
 )
