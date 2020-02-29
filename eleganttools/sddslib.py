@@ -1,5 +1,3 @@
-"""Wraps SDDSPython to provide a convenient interface for converting SDDS files Python objects."""
-
 import numpy as np
 
 # https://aps.anl.gov/Accelerator-Operations-Physics/Software
@@ -7,7 +5,7 @@ from . import sddspython
 
 
 class SDDS(sddspython.SDDS):
-    """Wraps sddspython.SDDS to make exporting as dict/dataframe more convenient.
+    """Extends sddspython.SDDS to make exporting as dict/dataframe more convenient.
 
     :param path: Path to the SDDS file.
     :type path: str or path-like
