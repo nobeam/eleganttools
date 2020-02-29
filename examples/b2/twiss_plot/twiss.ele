@@ -20,8 +20,8 @@
     magnets = "%s.mag",
     p_central_mev = 1700,
     use_beamline="RING",
-    default_order = 3,
-    concat_order = 3,
+    default_order = 2,
+    concat_order = 0,
 &end
 
 &twiss_output

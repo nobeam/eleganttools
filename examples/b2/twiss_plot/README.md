@@ -8,5 +8,5 @@
 
 3. Plot the twiss data:
 
-   python plot_twiss.py
+   python plot_twiss.py twiss.twi --title "BESSY II Standard User Mode 2020/02/29"
 
