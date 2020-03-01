@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. [Install elegant](https://aps.anl.gov/Accelerator-Operations-Physics/Software).
+1. Install [elegant](https://aps.anl.gov/Accelerator-Operations-Physics/Software)
 
 2. Install this package:
 
