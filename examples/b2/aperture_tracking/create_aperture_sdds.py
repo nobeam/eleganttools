@@ -2,7 +2,6 @@ import sdds
 import numpy as np
 
 tab = np.loadtxt("aperture_raw_table.txt")
-# print tab
 
 output = "aperture.sdds"
 x = sdds.SDDS(0)
