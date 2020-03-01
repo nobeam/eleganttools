@@ -13,22 +13,20 @@ def main(file, title):
     # Load twiss data as Python dict
     twiss = SDDS(file).as_dict()
 
-    # Length of ring
-    lattice_length = twiss["s"][-1]
-
     # Create figure in golden ratio (A paper sizes)
     figsizeinch = 14
     fig = plt.figure(figsize=(figsizeinch, figsizeinch * 0.5 ** 0.5))
 
-    # Plot whole ring
+    # PLot betax, betay and etax
     ax = plt.subplot(311)
     ax.plot(twiss["s"], twiss["betax"], "r-")
     ax.plot(twiss["s"], twiss["betay"], "b-")
     ax.plot(twiss["s"], 10 * np.array(twiss["etax"]), "g-")
 
-    # Lattice graphics vertical position and size (axis coordinates!)
+    # Draw magnets and axis coordinates
+    lattice_length = twiss["s"][-1]
+    draw_lattice(twiss, s_lim=(0, lattice_length), labels=False)
     axis_labels(yscale=0.5)
-    draw_lattice(twiss, (0, lattice_length), labels=False)
 
     ax.set_xlim(0, lattice_length)
     ax.set_xticks(np.linspace(0, 240, 17, endpoint=True))

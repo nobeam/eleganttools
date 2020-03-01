@@ -32,13 +32,20 @@ SECTION_NAMES = {
 }
 
 
+COLOR_MAP = {
+    "CSBEND": "yellow",
+    "KQUAD": "red",
+    "KSEXT": "green",
+    "KOCT": "black",
+}
+
 # Note:
 # It seem elegant twiss-ouput always prints the length, type and name
 # at the END of the element (!)
 # Check element list
 # print np.unique(twi.ElementType)
 # ['CSBEND' 'DRIF' 'KQUAD' 'KSEXT' 'MALIGN' 'MARK' 'RECIRC' 'WATCH']
-def draw_lattice(data, s_lim=None, labels=True, ax=None):
+def draw_lattice(data, s_lim=None, labels=True, floor_plan=True, ax=None):
     s = np.array(data["s"], dtype=np.float64)
     et = data["ElementType"]
     en = data["ElementName"]
@@ -67,15 +74,8 @@ def draw_lattice(data, s_lim=None, labels=True, ax=None):
 
         end = np.min((s[i], s1))
         length = end - start
-        if et[i] == "CSBEND":
-            face_color = "yellow"
-        elif et[i] == "KQUAD":
-            face_color = "red"
-        elif et[i] == "KSEXT":
-            face_color = "green"
-        elif et[i] == "KOCT":
-            face_color = "black"
-        else:
+        face_color = COLOR_MAP.get(et[i])
+        if face_color is None:
             continue
 
         retangle = plt.Rectangle(
@@ -160,6 +160,6 @@ def plot_bessy2_section(data, section_name, ax=None):
     ax.annotate(label, ((s1 + s0) / 2.0, y1 - y_span * 0.1), fontsize=10, ha="center")
     ax.yaxis.grid(alpha=0.3, zorder=0)
 
-    draw_lattice(data, (s0, s1))
+    draw_lattice(data, s_lim=(s0, s1))
     axis_labels()
     ax.set_xlim(s0, s1)
