@@ -17,6 +17,16 @@
 
 ## Usage
 
+### Run the examples
+
+To avoid changing the elegant run files every time you want run your simulations for a
+different lattice, most examples are configured to use the `active.lte` file.
+The active lattice can be changed by setting a symbolic link to a lattice file:
+
+``` bash
+ln -s /path/to/lattice.lte active.lte
+```
+
 ### Dealing with Self Describing Data Sets (SDDS)
 
 Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
@@ -47,11 +57,16 @@ df = SDDS("/path/to/twiss.twi").as_dataframe()
 df.betax
 ```
 
-### Run the examples
+### Matplotlib convenience funcitons
 
-Make a sym
+This package comes with some matplotlib convenience functions.
 
-``` bash
-ln -s /path/to/lattice.lte active.lte
+Draw the lattice on top of a matplotlib axis:
+
+``` python
+from eleganttools import draw_lattice
+
+plt.plot(twiss["s"], twiss["betax"])
+draw_lattice(twiss)
 ```
 
