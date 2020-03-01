@@ -1,7 +1,6 @@
 import numpy as np
 
-# https://aps.anl.gov/Accelerator-Operations-Physics/Software
-from . import sddspython
+from . import sddspython  # https://aps.anl.gov/Accelerator-Operations-Physics/Software
 
 
 class SDDS(sddspython.SDDS):
