@@ -2,9 +2,9 @@
 
 ## Installation
 
-1. Install elegant from [here](https://aps.anl.gov/Accelerator-Operations-Physics/Software).
+1. Install [elegant](https://aps.anl.gov/Accelerator-Operations-Physics/Software)
 
-2. Installing this package:
+2. Install this package:
 
     - If you intend to make changes to this repository, clone and install it with:
 
@@ -13,7 +13,7 @@
 
     - If you just want to use this package:
 
-          pip install -U git+https://github.com/nobeam/eleganttools.git@master
+          pip install -U git+https://github.com/nobeam/eleganttools.git
 
 ## Usage
 
@@ -47,7 +47,7 @@ df = SDDS("/path/to/twiss.twi").as_dataframe()
 df.betax
 ```
 
-### Matplotlib convenience funcitons
+### Matplotlib convenience functions
 
 This package comes with some matplotlib convenience functions.
 
@@ -62,8 +62,8 @@ draw_lattice(twiss)
 
 ## Examples
 
-This repository contains also multiple examples in the `examples` folder. Additionally each 
-example contains a separate `Readme` with further instructions.
+This repository also includes multiple examples in the `examples` folder. Additionally
+each example contains a separate `Readme.md` file with further instructions.
 
 ### Symbolic Links
 
@@ -74,3 +74,4 @@ The active lattice can be changed by setting a symbolic link to a lattice file:
 ``` bash
 ln -s /path/to/lattice.lte active.lte
 ```
+
