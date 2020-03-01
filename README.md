@@ -17,16 +17,6 @@
 
 ## Usage
 
-### Run the examples
-
-To avoid changing the elegant run files every time you want run your simulations for a
-different lattice, most examples are configured to use the `active.lte` file.
-The active lattice can be changed by setting a symbolic link to a lattice file:
-
-``` bash
-ln -s /path/to/lattice.lte active.lte
-```
-
 ### Dealing with Self Describing Data Sets (SDDS)
 
 Load the twiss data from the `twiss.twi` SDDS file into a Python dictionary:
@@ -61,7 +51,7 @@ df.betax
 
 This package comes with some matplotlib convenience functions.
 
-Draw the lattice on top of a matplotlib axis:
+Draw the magnets of the lattice on top of a matplotlib axis:
 
 ``` python
 from eleganttools import draw_lattice
@@ -70,3 +60,17 @@ plt.plot(twiss["s"], twiss["betax"])
 draw_lattice(twiss)
 ```
 
+## Examples
+
+This repository contains also multiple examples in the `examples` folder. Additionally each 
+example contains a separate `Readme` with further instructions.
+
+### Symbolic Links
+
+To avoid changing the elegant run files every time you want run your simulations for a
+different lattice, most examples are configured to use the `active.lte` file.
+The active lattice can be changed by setting a symbolic link to a lattice file:
+
+``` bash
+ln -s /path/to/lattice.lte active.lte
+```
