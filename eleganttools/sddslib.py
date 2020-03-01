@@ -18,8 +18,6 @@ class SDDS(sddspython.SDDS):
     def as_dict(self) -> dict:
         """Convert the self describing data set (SDDS) to a dictionary.
 
-        :param path: Path to SDDS file.
-        :type path: str
         :return: SDDS as dict
         :rtype: dict
         """
@@ -30,8 +28,6 @@ class SDDS(sddspython.SDDS):
     def as_dataframe(self) -> "pandas.DataFrame":
         """Convert the self describing data set (SDDS) to a pandas dataframe.
 
-        :param path: Path to SDDS file.
-        :type path: str
         :return: SDDS as pandas dataframe
         :rtype: pandas.DataFrame
         """
