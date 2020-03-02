@@ -1,0 +1,104 @@
+!..\jvl\accphysics\opa_astreun\examples\max4_octupoles_symbreak_tribs.opa
+!max-4 lattice study using octupoles (from simon leemann)
+
+!opa to elegant export
+
+!----- variables ----------------------------------------------------
+
+orbitdpp  = 0
+dtor      = 0.01745329
+
+!----- table of elements ----------------------------------------------------
+
+str100 : drift, l = 1.000000
+str050 : drift, l = 0.500000
+str039 : drift, l = 0.394000
+str038 : drift, l = 0.375000
+str030 : drift, l = 0.300000
+str025 : drift, l = 0.250000
+str020 : drift, l = 0.200000
+str008 : drift, l = 0.075000
+str001 : drift, l = 0.002750
+
+qf     : quadrupole, l = 0.150000, k1 = 4.021571
+qfm    : quadrupole, l = 0.150000, k1 = 3.805593
+qfend  : quadrupole, l = 0.200000, k1 = 3.962313
+qdend  : quadrupole, l = 0.200000, k1 = -2.393848
+qfs    : quadrupole, l = 0.150000, k1 = 4.021571
+qfms   : quadrupole, l = 0.150000, k1 = 3.805593
+qfends : quadrupole, l = 0.200000, k1 = 3.962313
+qdends : quadrupole, l = 0.200000, k1 = -2.393848
+qfendw : quadrupole, l = 0.200000, k1 = 4.085922
+qdendw : quadrupole, l = 0.200000, k1 = -2.988688
+
+d0     : csbend, l = 0.350000, angle = 0.019208, k1 = -0.914432,&
+         e1 = 0.000000, e2 = 0.000000
+d1     : csbend, l = 0.050000, angle = 0.002661, k1 = -0.858350,&
+         e1 = 0.000000, e2 = 0.000000
+d2     : csbend, l = 0.050000, angle = 0.001536, k1 = -0.436317,&
+         e1 = 0.000000, e2 = 0.000000
+d3     : csbend, l = 0.050000, angle = 0.001244, k1 = -0.406798,&
+         e1 = 0.000000, e2 = 0.000000
+d4     : csbend, l = 0.050000, angle = 0.001185, k1 = -0.397636,&
+         e1 = 0.000000, e2 = 0.000000
+d5     : csbend, l = 0.050000, angle = 0.000335, k1 = -0.072024,&
+         e1 = 0.000000, e2 = 0.000000
+d6     : csbend, l = 0.050000, angle = 0.000010, k1 = -0.000121,&
+         e1 = 0.000000, e2 = 0.000000
+
+sd     : ksext, l = 0.100000, k2 = -249.289106
+sdend  : ksext, l = 0.100000, k2 = -233.726712
+sfm    : ksext, l = 0.100000, k2 = 185.501058
+sfo    : ksext, l = 0.100000, k2 = 437.395798
+sfi    : ksext, l = 0.100000, k2 = 486.763966
+sdends : ksext, l = 0.100000, k2 = -192.700000
+sfms   : ksext, l = 0.100000, k2 = 185.501058
+sfos   : ksext, l = 0.100000, k2 = 437.395798
+sfis   : ksext, l = 0.100000, k2 = 486.763966
+
+scw    : drift, , l = 0.100000
+
+oxx    : mult, l = 0.0, knl = -679.6860, order=3
+oxy    : mult, l = 0.0, knl = 1331.5866, order=3
+oyy    : mult, l = 0.0, knl = -617.0892, order=3
+oxxs   : mult, l = 0.0, knl = -679.6860, order=3
+oxys   : mult, l = 0.0, knl = 1331.5866, order=3
+oyys   : mult, l = 0.0, knl = -617.0892, order=3
+
+
+!----- table of segments ----------------------------------------------------
+
+dip          : line=(d0, d1, d2, d3, d4, d5, d6)
+sqfm         : line=(qfm, str008, sfm, str008, qfm)
+sqfo         : line=(qf, str008, sfo, str008, qf)
+sqfi         : line=(qf, str008, sfi, str008, qf)
+sqfms        : line=(qfms, str008, sfms, str008, qfms)
+sqfos        : line=(qfs, str008, sfos, str008, qfs)
+sqfis        : line=(qfs, str008, sfis, str008, qfs)
+line         : line=(2*str100, str050, oxx, qfend, str030, oxy,&
+               qdend, str020, -dip, oyy, str039, sdend, 2*str050, str038, sqfm,&
+               str038, sd, -dip, dip, sd, str038, sqfo, str038, sd, -dip, dip,&
+               sd, str038, sqfi, str038, sd, -dip, dip, sd, str038, sqfi,&
+               str038, sd, -dip, dip, sd, str038, sqfo, str038, sd, -dip, dip,&
+               sd, str038, sqfm, str038, 2*str050, sdend, str039, oyy, dip,&
+               str020, qdend, oxy, str030, qfend, oxx, str050, 2*str100)
+linesysbreak : line=(2*str100, str050, oxxs, qfends, str030,&
+               oxys, qdends, str020, -dip, oyys, str039, sdends, 2*str050,&
+               str038, sqfms, str038, sd, -dip, dip, sd, str038, sqfos, str038,&
+               sd, -dip, dip, sd, str038, sqfis, str038, sd, -dip, dip, sd,&
+               str038, sqfis, str038, sd, -dip, dip, sd, str038, sqfos, str038,&
+               sd, -dip, dip, sd, str038, sqfms, str038, 2*str050, sdends,&
+               str039, oyys, dip, str020, qdends, oxys, str030, qfends, oxxs,&
+               str050, 2*str100)
+	   	   R : line=(linesysbreak, 19*line)
+	   	
+mal: malign, on_pass=1
+W1: 	watch, filename="%s.w1",  mode=centroid   
+M1: MALIGN, on_pass=1
+!M1: MALIGN, DX=0
+M2: MALIGN, DX=0
+RC: RECIRC
+
+RING: LINE=(RC,M1,W1, R)
+
+!..\jvl\accphysics\opa_astreun\examples\max4_octupoles_symbreak_tribs.opa
