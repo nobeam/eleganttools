@@ -1,4 +1,5 @@
-import sddsdata, time
+import time
+from . import sddsdata
 
 
 class SDDS:
