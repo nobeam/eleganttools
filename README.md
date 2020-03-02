@@ -65,7 +65,7 @@ draw_lattice(twiss)
 This repository also includes multiple examples in the `examples` folder. Additionally
 each example contains a separate `Readme.md` file with further instructions.
 
-### Symbolic Links
+### Lattice files
 
 To avoid changing the elegant run files every time you want run your simulations for a
 different lattice, most examples are configured to use the `active.lte` file.
