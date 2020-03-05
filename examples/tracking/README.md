@@ -8,9 +8,9 @@
 
 2. Run elegant:
 
-       elegant simple_tracking.ele -macro=lattice=/path/to/lattice.lte,energy=1700
+       elegant tracking.ele -macro=lattice=/path/to/lattice.lte,energy=1700
 
 3. Plot tracking data:
 
-       python plot_simple_tracking.py
+       python simple_tracking.py
 
