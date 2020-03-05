@@ -1,7 +1,6 @@
-
 &run_setup
-    lattice = "active.lte",
-    p_central = 3.3268171552e+03,
+    lattice = <lattice>,
+    p_central_mev = <energy>,
     use_beamline="RING",
     rootname = "output"
 &end
@@ -12,11 +11,17 @@
     radiation_integrals = 1,
 &end
 
-
 &run_control
-	n_passes = 1000
+	n_steps = 1
+	n_indices = 1
+	n_passes = 400
+	reset_rf_for_each_step = 0,
 &end
 
+&vary_element
+	name=M1, item=dx, initial=-0.0, final=0.02,
+	index_number=0, index_limit=21
+&end
 
 &bunched_beam
 	n_particles_per_bunch = 1,
