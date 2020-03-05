@@ -1,6 +1,6 @@
 # Python tools for elegant
 
-This repository contains Python tools for post processing of elgant simulation data. Furthermore it includes multiple examples in the `examples` folder, whereby each example has a separate `Readme.md` file with further instructions.
+This repository contains Python tools for post processing of elegant simulation data. There are multiple examples in the `examples` folder, whereby each example includes a separate `Readme.md` file with further instructions.
 
 ## Installation
 
