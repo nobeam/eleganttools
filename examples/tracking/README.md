@@ -1,4 +1,4 @@
-### Simple Tracking
+### Tracking
 
 1. Add these elements to your lattice:
 
@@ -12,5 +12,4 @@
 
 3. Plot tracking data:
 
-       python simple_tracking.py
-
+       python tracking.py
