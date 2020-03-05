@@ -1,22 +1,20 @@
 ! TWISS OUTPUT FULL
-
 ! 3cm slices of everything takes about 24 seconds calculation time
 &divide_elements
-         name = *, type = *DRIF*, maximum_length = 0.03,
+    name = *, type = *DRIF*, maximum_length = 0.03,
 &end
 &divide_elements
-         name = *, type = *KQUAD*, maximum_length = 0.03,
+    name = *, type = *KQUAD*, maximum_length = 0.03,
 &end
 &divide_elements
-         name = *, type = *KSEXT*, maximum_length = 0.03,
+    name = *, type = *KSEXT*, maximum_length = 0.03,
 &end
 &divide_elements
-         name = *, type = *CSBEND*, maximum_length = 0.03,
+    name = *, type = *CSBEND*, maximum_length = 0.03,
 &end
-
 
 &run_setup
-    lattice = "active.lte",
+    lattice = <lattice>,
     magnets = "%s.mag",
     p_central_mev = 1700,
     use_beamline="RING",
@@ -33,4 +31,3 @@
     higher_order_chromaticity_range = 4e-02,
     compute_driving_terms = 1,
 &end
-

@@ -19,10 +19,11 @@ for ax, (x, y) in zip(
         ("dCt", "Cdelta"),
     ],
 ):
-    ax.plot(data[x], data[y], ",")
+    ax.plot(data[x], data[y], ",b")
     ax.set_xlabel(x)
     ax.set_ylabel(y)
 
 
 plt.tight_layout()
 plt.savefig("tracking.pdf")
+plt.savefig("tracking.png")
