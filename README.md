@@ -1,5 +1,7 @@
 # Python tools for elegant
 
+This repository contains Python tools for post processing of elegant simulation data. There are multiple examples in the `examples` folder, whereby each example includes a separate `Readme.md` file with further instructions.
+
 ## Installation
 
 1. Install [elegant](https://aps.anl.gov/Accelerator-Operations-Physics/Software)
@@ -59,19 +61,3 @@ from eleganttools import draw_lattice
 plt.plot(twiss["s"], twiss["betax"])
 draw_lattice(twiss)
 ```
-
-## Examples
-
-This repository also includes multiple examples in the `examples` folder. Additionally
-each example contains a separate `Readme.md` file with further instructions.
-
-### Lattice files
-
-To avoid changing the elegant run files every time you want run your simulations for a
-different lattice, most examples are configured to use the `active.lte` file.
-The active lattice can be changed by setting a symbolic link to a lattice file:
-
-``` bash
-ln -s /path/to/lattice.lte active.lte
-```
-
