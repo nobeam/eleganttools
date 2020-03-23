@@ -16,7 +16,7 @@
 &run_setup
     lattice = <lattice>,
     magnets = "%s.mag",
-    p_central_mev = 1700,
+    p_central_mev = <energy>,
     use_beamline="RING",
     default_order = 2,
     concat_order = 0,
