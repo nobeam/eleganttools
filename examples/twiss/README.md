@@ -2,7 +2,7 @@
 
 1. Run elegant:
 
-       elegant twiss.ele -macro=lattice=/path/to/lattice.lte
+       elegant twiss.ele -macro=lattice=/path/to/lattice.lte,energy=<energy>
 
 2. Plot the twiss data:
 
