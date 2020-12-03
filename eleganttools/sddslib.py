@@ -1,5 +1,3 @@
-import numpy as np
-
 from . import sddspython  # https://aps.anl.gov/Accelerator-Operations-Physics/Software
 
 
@@ -21,6 +19,8 @@ class SDDS(sddspython.SDDS):
         :return: SDDS as dict
         :rtype: dict
         """
+        import numpy as np
+
         parameters = [c[0] for c in self.parameterData]
         columns = [np.squeeze(col) for col in self.columnData]
         return dict(zip(self.parameterName + self.columnName, parameters + columns))

@@ -31,50 +31,46 @@ SECTION_NAMES = {
     "S": [d + " + " + t for d, t in zip(DOUBLET_NAMES, TRIPLET_NAMES)],
 }
 
+red = "#EF4444"
+yellow = "#FBBF24"
+green = "#10B981"
+blue = "#3B82F6"
 
 COLOR_MAP = {
-    "CSBEND": "yellow",
-    "KQUAD": "red",
-    "KSEXT": "green",
-    "KOCT": "black",
+    "CSBEND": yellow,
+    "KQUAD": red,
+    "QUAD": red,
+    "KSEXT": green,
+    "KOCT": blue,
 }
 
-# Note:
-# It seem elegant twiss-ouput always prints the length, type and name
-# at the END of the element (!)
-# Check element list
-# print np.unique(twi.ElementType)
-# ['CSBEND' 'DRIF' 'KQUAD' 'KSEXT' 'MALIGN' 'MARK' 'RECIRC' 'WATCH']
-def draw_lattice(data, s_lim=None, labels=True, floor_plan=True, ax=None):
-    s = np.array(data["s"], dtype=np.float64)
-    et = data["ElementType"]
-    en = data["ElementName"]
-    s0, s1 = s_lim if s_lim is not None else (s[0], s[-1])
 
-    if ax is None:
-        ax = plt.gca()
+def draw_lattice(ax, data, *, s_lim=None, labels=True):
+    """Draw lattice on matplotlib axes."""
+    s = np.array(data["s"], dtype=np.float64)
+    element_type = data["ElementType"]
+    element_name = data["ElementName"]
+    s0, s1 = s_lim if s_lim is not None else (s[0], s[-1])
+    on_top = {"QUAD", "KQUAD"}
 
     # get space for labels and rectangles
     y_min, y_max = ax.get_ylim()
-    y_span = (y_max - y_min) * 1.1
-    y_max = y_min + y_span
-    ax.set_ylim(y_min, y_max)
-    rect_height = y_span / 32
+    rect_height = 0.05 * (y_max - y_min)
 
     i0 = np.argmax(s >= s0)
     i1 = np.argmax(s >= s1)
     start = s0
     for i in range(i0, i1 + 1):
         if i > i0:  # save start if previous element was something else
-            if et[i] != et[i - 1]:
+            if element_type[i] != element_type[i - 1]:
                 start = s[i - 1]
         if i < i1:  # skip if next element of same type
-            if et[i] == et[i + 1]:
+            if element_type[i] == element_type[i + 1]:
                 continue
 
         end = np.min((s[i], s1))
         length = end - start
-        face_color = COLOR_MAP.get(et[i])
+        face_color = COLOR_MAP.get(element_type[i])
         if face_color is None:
             continue
 
@@ -89,12 +85,11 @@ def draw_lattice(data, s_lim=None, labels=True, floor_plan=True, ax=None):
         )
         ax.add_patch(retangle)
         if labels:
-            fs = 80 / (s1 - s0)
-            sign = 1 if et[i] == "KQUAD" else -1
+            sign = ((element_type[i] in "KQUAD") << 1) - 1
             plt.annotate(
-                en[i],
-                xy=((end + start) / 2, y_max + sign * 1.5 * rect_height),
-                fontsize=fs,
+                element_name[i],
+                xy=((end + start) / 2, y_max + sign * rect_height),
+                fontsize=5,
                 va="center",
                 ha="center",
                 annotation_clip=False,
@@ -102,10 +97,7 @@ def draw_lattice(data, s_lim=None, labels=True, floor_plan=True, ax=None):
             )
 
 
-def axis_labels(yscale=1, eta_x_scale=10, ax=None):
-    if ax is None:
-        ax = plt.gca()
-
+def axis_labels(ax, yscale=1, eta_x_scale=10):
     plt.xlabel("s / m")
     ybox1 = TextArea(
         "       $\\eta_x / {0}".format(int(100 / eta_x_scale)) + "\mathrm{cm}$",
@@ -160,6 +152,6 @@ def plot_bessy2_section(data, section_name, ax=None):
     ax.annotate(label, ((s1 + s0) / 2.0, y1 - y_span * 0.1), fontsize=10, ha="center")
     ax.yaxis.grid(alpha=0.3, zorder=0)
 
-    draw_lattice(data, s_lim=(s0, s1))
+    draw_lattice(ax, data, s_lim=(s0, s1))
     axis_labels()
     ax.set_xlim(s0, s1)

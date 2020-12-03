@@ -25,8 +25,8 @@ def main(file, title):
 
     # Draw magnets and axis coordinates
     lattice_length = twiss["s"][-1]
-    draw_lattice(twiss, s_lim=(0, lattice_length), labels=False)
-    axis_labels(yscale=0.5)
+    draw_lattice(ax, twiss, s_lim=(0, lattice_length), labels=False)
+    axis_labels(ax, yscale=0.5)
 
     ax.set_xlim(0, lattice_length)
     ax.set_xticks(np.linspace(0, 240, 17, endpoint=True))
