@@ -56,9 +56,9 @@ This package comes with some matplotlib convenience functions.
 Draw the magnets of the lattice on top of a matplotlib axis:
 
 ``` python
-from eleganttools import draw_lattice
+from eleganttools import draw_elements
 
 fig, ax = plt.subplots()
 ax.plot(twiss["s"], twiss["betax"])
-draw_lattice(ax, twiss)
+draw_elements(ax, twiss)
 ```

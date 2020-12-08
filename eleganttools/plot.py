@@ -2,9 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredOffsetbox, TextArea, VPacker
 
-from .sddslib import SDDS
-
-
 DOUBLET_NAMES = [
     "Injection",
     "U125",
@@ -45,7 +42,7 @@ COLOR_MAP = {
 }
 
 
-def draw_lattice(ax, data, *, s_lim=None, labels=True):
+def draw_elements(ax, data, *, s_lim=None, labels=True):
     """Draw lattice on matplotlib axes."""
     s = np.array(data["s"], dtype=np.float64)
     element_type = data["ElementType"]
@@ -85,7 +82,7 @@ def draw_lattice(ax, data, *, s_lim=None, labels=True):
         )
         ax.add_patch(retangle)
         if labels:
-            sign = ((element_type[i] in "KQUAD") << 1) - 1
+            sign = ((element_type[i] in on_top) << 1) - 1
             plt.annotate(
                 element_name[i],
                 xy=((end + start) / 2, y_max + sign * rect_height),
@@ -97,19 +94,19 @@ def draw_lattice(ax, data, *, s_lim=None, labels=True):
             )
 
 
-def axis_labels(ax, yscale=1, eta_x_scale=10):
+def axis_labels(ax, *, yscale=1, eta_x_scale=10):
     plt.xlabel("s / m")
     ybox1 = TextArea(
-        "       $\\eta_x / {0}".format(int(100 / eta_x_scale)) + "\mathrm{cm}$",
-        textprops=dict(color="g", rotation=90, ha="left", va="center"),
+        "       $\\eta_x / {0}".format(int(100 / eta_x_scale)) + "\\mathrm{cm}$",
+        textprops=dict(color=green, rotation=90, ha="left", va="center"),
     )
     ybox2 = TextArea(
         "  $\\beta_y / \\mathrm{m}$",
-        textprops=dict(color="b", rotation=90, ha="left", va="center"),
+        textprops=dict(color=blue, rotation=90, ha="left", va="center"),
     )
     ybox3 = TextArea(
         "$\\beta_x / \\mathrm{m}$",
-        textprops=dict(color="r", rotation=90, ha="left", va="center"),
+        textprops=dict(color=red, rotation=90, ha="left", va="center"),
     )
     ybox = VPacker(children=[ybox1, ybox2, ybox3], align="bottom", pad=0, sep=5)
     anchored_ybox = AnchoredOffsetbox(
@@ -152,6 +149,6 @@ def plot_bessy2_section(data, section_name, ax=None):
     ax.annotate(label, ((s1 + s0) / 2.0, y1 - y_span * 0.1), fontsize=10, ha="center")
     ax.yaxis.grid(alpha=0.3, zorder=0)
 
-    draw_lattice(ax, data, s_lim=(s0, s1))
-    axis_labels()
+    draw_elements(ax, data, s_lim=(s0, s1))
+    axis_labels(ax)
     ax.set_xlim(s0, s1)

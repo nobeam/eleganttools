@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
-from eleganttools import SDDS, draw_lattice
+from eleganttools import SDDS, draw_elements
 
 data = SDDS("data.flr").as_dict()
 

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from eleganttools import SDDS, draw_lattice, axis_labels, plot_bessy2_section
+from eleganttools import SDDS, draw_elements, axis_labels, plot_bessy2_section
 import click
 
 
@@ -25,7 +25,7 @@ def main(file, title):
 
     # Draw magnets and axis coordinates
     lattice_length = twiss["s"][-1]
-    draw_lattice(ax, twiss, s_lim=(0, lattice_length), labels=False)
+    draw_elements(ax, twiss, s_lim=(0, lattice_length), labels=False)
     axis_labels(ax, yscale=0.5)
 
     ax.set_xlim(0, lattice_length)
