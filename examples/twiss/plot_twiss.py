@@ -1,8 +1,8 @@
+import click
 import numpy as np
 import matplotlib.pyplot as plt
 
 from eleganttools import SDDS, draw_elements, axis_labels, plot_bessy2_section
-import click
 
 
 @click.command()
@@ -25,18 +25,16 @@ def main(file, title):
 
     # Draw magnets and axis coordinates
     lattice_length = twiss["s"][-1]
-    draw_elements(ax, twiss, s_lim=(0, lattice_length), labels=False)
-    axis_labels(ax, yscale=0.5)
-
     ax.set_xlim(0, lattice_length)
     ax.set_xticks(np.linspace(0, 240, 17, endpoint=True))
     ax.set_xticks(np.linspace(7.5, 232.5, 16, endpoint=True), minor=True)
     ax.xaxis.grid(which="minor")
     ax.yaxis.grid(alpha=0.3, zorder=0)
+    draw_elements(ax, twiss, labels=False)
+    axis_labels(ax)
 
     # Print some headline information
     fig.suptitle(title, ha="left", fontsize=20, x=0.025)
-
     params = {"length": lattice_length, "E_GeV": twiss["pCentral"] / 3913.90152459 * 2}
     params.update(
         (k, twiss[k])
@@ -72,4 +70,4 @@ def main(file, title):
 
 
 if __name__ == "__main__":
-    main()  # pylint: disable=no-value-for-parameter
+    main()
