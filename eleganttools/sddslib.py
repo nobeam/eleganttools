@@ -1,4 +1,5 @@
 from . import sddspython  # https://aps.anl.gov/Accelerator-Operations-Physics/Software
+from os.path import exists
 
 
 class SDDS(sddspython.SDDS):
@@ -11,6 +12,7 @@ class SDDS(sddspython.SDDS):
 
     def __init__(self, path, index=0):
         super().__init__(index)
+        assert exists(path), f"SDDS file {path} does not exist."
         self.load(str(path))
 
     def as_dict(self) -> dict:
